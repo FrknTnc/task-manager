@@ -45,7 +45,7 @@ export default function ProjectDetailPage() {
   const fetchProject = async () => {
     if (!projectId || !token) return;
     try {
-      const res = await axios.get(`http://localhost:5001/projects/${projectId}`, {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjectInfo(res.data);
@@ -57,7 +57,7 @@ export default function ProjectDetailPage() {
   const fetchTasks = async () => {
     if (!projectId || !token) return;
     try {
-      const res = await axios.get(`http://localhost:5001/projects/${projectId}/tasks`, {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(res.data);
@@ -99,7 +99,7 @@ export default function ProjectDetailPage() {
 
   const fetchLogs = async (taskId: string) => {
     try {
-      const res = await axios.get(`http://localhost:5001/tasks/${taskId}/logs`, {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskId}/logs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLogs(res.data);
@@ -116,7 +116,7 @@ export default function ProjectDetailPage() {
   const handleDeleteTask = async (taskId: string) => {
     if (!confirm("Bu görevi silmek istediğinize emin misiniz?")) return;
     try {
-      await axios.delete(`http://localhost:5001/tasks/${taskId}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchTasks();
