@@ -1,4 +1,4 @@
-# Task Manager API
+# Task Manager Backend
 Görev, proje ve kullanıcı yönetimini JWT tabanlı güvenlik ve rol bazlı yetkilendirme ile gerçekleştiren RESTful bir Node.js API uygulamasıdır. WebSocket ile anlık bildirimler ve görev güncellemeleri desteklenmektedir.
 
 ## Kullanılan Teknolojiler
