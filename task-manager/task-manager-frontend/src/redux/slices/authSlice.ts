@@ -29,10 +29,16 @@ export const loginUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const res = await axios.post('http://localhost:5001/auth/login', credentials);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        credentials
+      );
       return res.data; 
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || 'Login failed');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        return rejectWithValue(err.response?.data?.message || 'Login failed');
+      }
+      return rejectWithValue('Login failed');
     }
   }
 );
@@ -44,10 +50,16 @@ export const registerUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const res = await axios.post('http://localhost:5001/auth/register', userData);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+        userData
+      );
       return res.data;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || 'Register failed');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        return rejectWithValue(err.response?.data?.message || 'Register failed');
+      }
+      return rejectWithValue('Register failed');
     }
   }
 );
