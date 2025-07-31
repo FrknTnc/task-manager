@@ -37,7 +37,7 @@ export default function DashboardPage() {
 
     const fetchProjectsAndTasks = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/projects", {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const projects = res.data;
@@ -46,7 +46,7 @@ export default function DashboardPage() {
         const tasksMap: Record<string, Task[]> = {};
         for (const project of projects) {
           const taskRes = await axios.get(
-            `http://localhost:5001/projects/${project._id}/tasks`,
+            `${process.env.NEXT_PUBLIC_API_URL}/projects/${project._id}/tasks`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -103,7 +103,7 @@ export default function DashboardPage() {
   const createProject = async (name: string, description: string) => {
     try {
       const res = await axios.post(
-        "http://localhost:5001/projects",
+        "${process.env.NEXT_PUBLIC_API_URL}/projects",
         { name, description },
         {
           headers: { Authorization: `Bearer ${token}` },
