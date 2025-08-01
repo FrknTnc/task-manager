@@ -7,7 +7,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import type { User } from "@/types/user";
@@ -107,8 +107,9 @@ export default function TaskForm({ projectId, onSuccess, taskToEdit }: Props) {
       });
 
       onSuccess();
-    } catch (err: any) {
-      setError(err.response?.data?.message || "İşlem başarısız");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      setError(error.response?.data?.message || "İşlem başarısız");
     } finally {
       setLoading(false);
     }
