@@ -37,7 +37,7 @@ export default function DashboardPage() {
 
     const fetchProjectsAndTasks = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects`, {
+        const res = await axios.get("https://task-manager-02q1.onrender.com/projects", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const projects = res.data;
@@ -46,7 +46,7 @@ export default function DashboardPage() {
         const tasksMap: Record<string, Task[]> = {};
         for (const project of projects) {
           const taskRes = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/projects/${project._id}/tasks`,
+            `https://task-manager-02q1.onrender.com/projects/${project._id}/tasks`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -103,7 +103,7 @@ export default function DashboardPage() {
   const createProject = async (name: string, description: string) => {
     try {
       const res = await axios.post(
-        "${process.env.NEXT_PUBLIC_API_URL}/projects",
+        "https://task-manager-02q1.onrender.com/projects",
         { name, description },
         {
           headers: { Authorization: `Bearer ${token}` },
