@@ -5,7 +5,7 @@
  */
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { User } from '@/types/user';
 
 interface AuthState {
@@ -31,8 +31,9 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await axios.post('https://task-manager-02q1.onrender.com/auth/login', credentials);
       return res.data; 
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || 'Login failed');
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
   }
 );
@@ -46,8 +47,9 @@ export const registerUser = createAsyncThunk(
     try {
       const res = await axios.post('https://task-manager-02q1.onrender.com/auth/register', userData);
       return res.data;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || 'Register failed');
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      return rejectWithValue(error.response?.data?.message || 'Register failed');
     }
   }
 );
