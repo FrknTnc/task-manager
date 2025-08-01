@@ -57,7 +57,7 @@ export default function TaskForm({ projectId, onSuccess, taskToEdit }: Props) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("${process.env.NEXT_PUBLIC_API_URL}/users", {
+        const res = await axios.get("https://task-manager-02q1.onrender.com/users", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(res.data);
@@ -82,7 +82,7 @@ export default function TaskForm({ projectId, onSuccess, taskToEdit }: Props) {
     try {
       if (taskToEdit) {
         await axios.put(
-          `${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskToEdit._id}`,
+          `https://task-manager-02q1.onrender.com/tasks/${taskToEdit._id}`,
           formData,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -90,7 +90,7 @@ export default function TaskForm({ projectId, onSuccess, taskToEdit }: Props) {
         );
       } else {
         await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/tasks`,
+          `https://task-manager-02q1.onrender.com/projects/${projectId}/tasks`,
           formData,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -107,17 +107,12 @@ export default function TaskForm({ projectId, onSuccess, taskToEdit }: Props) {
       });
 
       onSuccess();
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "İşlem başarısız");
-      } else {
-        setError("Bilinmeyen bir hata oluştu");
-      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "İşlem başarısız");
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
