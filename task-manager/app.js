@@ -19,10 +19,9 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Güvenli CORS yapılandırması (localhost + frontend render domainine izin)
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://task-manager-frontend.onrender.com' // frontend render domainin buysa
+  'https://task-manager-02q1.onrender.com'
 ];
 
 app.use(cors({
@@ -37,7 +36,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options('*', cors()); // ✅ Preflight için şart
+app.options('*', cors());
 
 app.use(express.json());
 
