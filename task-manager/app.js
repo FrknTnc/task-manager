@@ -2,7 +2,7 @@
  * @file app.js
  * @description Express uygulamasının ana giriş noktasıdır. Tüm middleware ve rotalar burada yapılandırılır.
  */
-
+require('dns').setDefaultResultOrder('ipv4first');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -19,11 +19,34 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const server = http.createServer(app);
 
+// ✅ Güvenli CORS yapılandırması (localhost + frontend render domainine izin)
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://task-manager-frontend.onrender.com' // frontend render domainin buysa
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
+}));
+
+app.options('*', cors()); // ✅ Preflight için şart
+
+app.use(express.json());
+
 // WebSocket entegrasyonu
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
   }
 });
 
@@ -31,10 +54,7 @@ io.on('connection', (socket) => {
   console.log('Socket connected:', socket.id);
 });
 
-app.set('io', io); 
-
-app.use(cors());
-app.use(express.json());
+app.set('io', io);
 
 app.use((req, res, next) => {
   req.io = io;
@@ -77,7 +97,4 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
-// Express app ve io export edilir
 module.exports = { app, io };
-
-
