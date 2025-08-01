@@ -5,7 +5,7 @@ Kullanıcıların projeler ve görevler oluşturabildiği, rollerle yetkilendiri
 ## Canlı Uygulama
 
 - **Frontend (Next.js + Vercel):** [https://task-manager-three-gules.vercel.app](https://task-manager-three-gules.vercel.app)
-- **Backend (Node.js + Express + Render):** [https://task-manager-api.onrender.com](https://task-manager-api.onrender.com)
+- **Backend (Node.js + Express + Render):** [https://task-manager-02q1.onrender.com](https://task-manager-02q1.onrender.com)
 
 ## Kullanılan Teknolojiler
 
