@@ -19,33 +19,11 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://task-manager-02q1.onrender.com'
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
-}));
-
-app.options('*', cors());
-
-app.use(express.json());
-
 // WebSocket entegrasyonu
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
   }
 });
 
@@ -53,7 +31,10 @@ io.on('connection', (socket) => {
   console.log('Socket connected:', socket.id);
 });
 
-app.set('io', io);
+app.set('io', io); 
+
+app.use(cors());
+app.use(express.json());
 
 app.use((req, res, next) => {
   req.io = io;
@@ -96,4 +77,7 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
+// Express app ve io export edilir
 module.exports = { app, io };
+
+
